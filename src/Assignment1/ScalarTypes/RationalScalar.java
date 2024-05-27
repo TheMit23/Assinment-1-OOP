@@ -1,32 +1,38 @@
-package Assignment1;
+package Assignment1.ScalarTypes;
 
 
-public class Rational implements Scalar {
+public class RationalScalar implements Scalar {
     private int numerator;
     private int denominator;
 
-    public Rational(int numerator, int denominator) {
+    public RationalScalar(int numerator, int denominator) {
         this.numerator = numerator;
         this.denominator = denominator;
+        this.reduce();
     }
 
-    public Rational reduce() {
-        int a=numerator;
-        int b=denominator;
+    public RationalScalar reduce() {
+        int a = numerator;
+        int b = denominator;
         while (b != 0) {
             int temp = b;
             b = a % b;
             a = temp;
         }
-        if(denominator<0){
-            this.numerator = this.numerator*(-1);
-            this.denominator = this.denominator*(-1);
+        this.numerator = this.numerator / a;
+        this.denominator = this.denominator / a;
+        if (denominator < 0) {
+            this.numerator = this.numerator * (-1);
+            this.denominator = this.denominator * (-1);
         }
-        return new Rational(numerator/a,denominator/a);
+        return this;
     }
 
     public String toString() {
-        return null;//need to do
+        if (denominator == 1) {
+            return "" + numerator;
+        }
+        return numerator + "/" + denominator;
     }
 
     @Override
@@ -41,22 +47,22 @@ public class Rational implements Scalar {
 
     @Override
     public Scalar neg() {
-        return this.mulInteger(new Integer(-1));
+        return this.mulInteger(new IntegerScalar(-1));
     }
 
     @Override
     public Scalar power(int exponent) {
         int newNumerator = (int) Math.pow(getNumerator(), exponent);
         int newDenominator = (int) Math.pow(getNumerator(), exponent);
-        return new Rational(newNumerator, newDenominator);
+        return new RationalScalar(newNumerator, newDenominator);
 
     }
 
     @Override
     public int sign() {
-        if (numerator*denominator>0) {
+        if (numerator * denominator > 0) {
             return 1;
-        } else if (numerator*denominator < 0) {
+        } else if (numerator * denominator < 0) {
             return -1;
         } else {
             return 0;
@@ -65,50 +71,45 @@ public class Rational implements Scalar {
 
     @Override
     public boolean equals(Object o) {
-        Rational rational =new Rational(this.reduce());
-        if(o instanceof Rational){
-            Rational other =new Rational((Rational) o.reduce());
-            if(other.getDenominator()==rational.getDenominator()&other.getNumerator()==rational.getNumerator()){
+        if (o instanceof RationalScalar) {
+            if (((RationalScalar) o).getDenominator() == this.getDenominator() && ((RationalScalar) o).getNumerator() == this.getNumerator()) {
                 return true;
             }
-            return false;
         }
-        if(o instanceof Integer){
-
-            Rational other =new Rational(((Integer) o).getNumber(),1);
-            if(other.getDenominator()==rational.getDenominator()&other.getNumerator()==rational.getNumerator()){
+        if (o instanceof IntegerScalar) {
+            if ((this.getDenominator() == 1) && ((IntegerScalar) o).getNumber() == this.getNumerator()) {
                 return true;
             }
-            return false;
         }
+        return false;
     }
 
     @Override
-    public Scalar addRational(Rational s) {
+    public Scalar addRational(RationalScalar s) {
         int newNumerator = s.getDenominator() * this.numerator + s.getNumerator() * this.getDenominator();
         int newDenominator = s.getDenominator() * this.getDenominator();
-        return new Rational(newNumerator, newDenominator);
+        return new RationalScalar(newNumerator, newDenominator);
 
     }
 
     @Override
-    public Scalar addInteger(Integer s) {
+    public Scalar addInteger(IntegerScalar s) {
         int newNumerator = s.getNumber() * denominator + numerator;
-        return new Rational(newNumerator, denominator);
+        return new RationalScalar(newNumerator, denominator);
     }
 
     @Override
-    public Scalar mulInteger(Integer s) {
+    public Scalar mulInteger(IntegerScalar s) {
         int newNumerator = s.getNumber() * numerator;
-        return new Rational(newNumerator, denominator);
+        return new RationalScalar(newNumerator, denominator);
 
     }
 
     @Override
-    public Scalar mulRational(Rational s) {
+    public Scalar mulRational(RationalScalar s) {
         int newNumerator = this.numerator * s.getNumerator();
         int newDenominator = s.getDenominator() * this.getDenominator();
-        return new Rational(newNumerator, newDenominator);
+        return new RationalScalar(newNumerator, newDenominator);
 
     }
 
