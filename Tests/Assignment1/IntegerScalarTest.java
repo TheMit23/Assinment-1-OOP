@@ -11,18 +11,34 @@ public class IntegerScalarTest {
 
     @BeforeEach
     public void initTest(){
-        obj = new IntegerScalar(1);
+        obj = new IntegerScalar(2);
+
 
     }
 
     @Test
-    public  void testadd(){
-        Assertions.assertEquals(new IntegerScalar(1),obj.add(new IntegerScalar(0)));
+    public  void testAdd(){
+        Assertions.assertEquals(new IntegerScalar(2),obj.add(new IntegerScalar(0)));
     }
 
     @Test
-    public  void testmul(){
-        Assertions.assertEquals(new IntegerScalar(1),obj.add(new IntegerScalar(0)));
+    public  void testMul(){
+        Assertions.assertEquals(new IntegerScalar(0),obj.mul(new IntegerScalar(0)));
+    }
+
+    @Test
+    public void testNeg(){
+        Assertions.assertEquals(new IntegerScalar(-2),obj.neg());
+    }
+
+    @Test
+    public void testPower(){
+        Assertions.assertEquals(new IntegerScalar(4),obj.power(2));
+    }
+
+    @Test
+    public void testSign(){
+        Assertions.assertEquals(1,obj.sign());
     }
 
 
