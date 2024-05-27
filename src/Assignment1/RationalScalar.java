@@ -1,4 +1,5 @@
-package Assignment1.ScalarTypes;
+package Assignment1;
+
 
 
 public class RationalScalar implements Scalar {

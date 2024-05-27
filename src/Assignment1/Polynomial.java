@@ -1,8 +1,5 @@
-package Assignment1.Polynomial;
+package Assignment1;
 
-import Assignment1.ScalarTypes.IntegerScalar;
-import Assignment1.ScalarTypes.RationalScalar;
-import Assignment1.ScalarTypes.Scalar;
 
 import java.util.TreeMap;
 

@@ -1,7 +1,5 @@
-package Assignment1.Polynomial;
+package Assignment1;
 
-import Assignment1.ScalarTypes.IntegerScalar;
-import Assignment1.ScalarTypes.Scalar;
 
 public class Monomial {
     private int exponent;

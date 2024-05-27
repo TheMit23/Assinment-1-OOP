@@ -1,4 +1,6 @@
-package Assignment1.ScalarTypes;
+package Assignment1;
+
+
 
 public class IntegerScalar implements Scalar, Comparable<IntegerScalar>{
     private int number;
