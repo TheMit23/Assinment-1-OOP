@@ -1,8 +1,7 @@
 package Classes;
 
 
-
-public class IntegerScalar implements Scalar, Comparable<IntegerScalar>{
+public class IntegerScalar implements Scalar {
     private int number;
 
     public IntegerScalar(int number) {
@@ -56,9 +55,6 @@ public class IntegerScalar implements Scalar, Comparable<IntegerScalar>{
         return "" + number;
     }
 
-    public int compareTo(IntegerScalar s) {
-        return Integer.compare(this.number, s.getNumber());
-    }
 
     @Override
     public Scalar addRational(RationalScalar s) {

@@ -6,55 +6,54 @@ import java.util.TreeMap;
 import static java.lang.Integer.parseInt;
 
 public class Polynomial {
-    private TreeMap<IntegerScalar, Monomial> monomials;
+    private TreeMap<Integer, Monomial> monomials;
 
     public Polynomial() {
         monomials = new TreeMap<>();
     }
 
-    public Polynomial(TreeMap<IntegerScalar, Monomial> monomials) {
-        this.monomials = monomials;
+    public Polynomial(TreeMap<Integer, Monomial> monomials) {
+        this.monomials = new TreeMap<>();
+        this.monomials.putAll(monomials);
     }
 
     static Polynomial build(String input) {
-        TreeMap<IntegerScalar, Monomial> monomials = new TreeMap<>();
-        IntegerScalar key = new IntegerScalar(0);
+        TreeMap<Integer, Monomial> monomials = new TreeMap<>();
+        Integer key = 0;
         for (String str : input.split("\\s+")) {
             if (str.contains("/")) {
                 String[] s = str.split("/");
-                monomials.put(key, new Monomial(key.getNumber(), new RationalScalar(parseInt(s[0]), parseInt(s[1]))));
-            } else if (!str.equals("0")) {
-                monomials.put(key, new Monomial(key.getNumber(), new IntegerScalar(parseInt(str))));
+                monomials.put(key, new Monomial(key, new RationalScalar(parseInt(s[0]), parseInt(s[1]))));
+            } else {
+                monomials.put(key, new Monomial(key, new IntegerScalar(parseInt(str))));
             }
-            key.add(new IntegerScalar(1));
+            key++;
         }
         return new Polynomial(monomials);
     }
 
     public Polynomial add(Polynomial p) {
-        TreeMap<IntegerScalar, Monomial> monomials = new TreeMap<>();
-        for (IntegerScalar key : this.monomials.keySet()) {
-            if (p.monomials.containsKey(key)) {
-                Monomial m = this.monomials.get(key).add(p.monomials.get(key));
-                monomials.put(key, m);
-            } else {
-                monomials.put(key, this.monomials.get(key));
-            }
+        TreeMap<Integer, Monomial> result, toAdd;
+        if (this.monomials.size() < p.monomials.size()) {
+            result = new TreeMap<>(p.monomials);
+            toAdd = new TreeMap<>(this.monomials);
+        } else {
+            result = new TreeMap<>(this.monomials);
+            toAdd = new TreeMap<>(p.monomials);
         }
-        for (IntegerScalar key : p.monomials.keySet()) {
-            if (!this.monomials.containsKey(key)) {
-                monomials.put(key, p.monomials.get(key));
-            }
+        for (Integer key : toAdd.keySet()) {
+            result.put(key, result.get(key).add(toAdd.get(key)));
         }
-        return new Polynomial(monomials);
+        return new Polynomial(result);
     }
 
     public Polynomial mul(Polynomial p) {
-        TreeMap<IntegerScalar, Monomial> monomials = new TreeMap<>();
-        for (IntegerScalar key1 : this.monomials.keySet()) {
-            for (IntegerScalar key2 : p.monomials.keySet()) {
+        TreeMap<Integer, Monomial> monomials = new TreeMap<>();
+        Integer newKey = 0;
+        for (Integer key1 : this.monomials.keySet()) {
+            for (Integer key2 : p.monomials.keySet()) {
                 Monomial m = this.monomials.get(key1).mul(p.monomials.get(key2));
-                IntegerScalar newKey = new IntegerScalar(key1.getNumber() + key2.getNumber());
+                newKey = m.getExponent();
                 if (monomials.containsKey(newKey)) {
                     monomials.put((newKey), monomials.get(newKey).add(m));
                 } else {
@@ -62,23 +61,28 @@ public class Polynomial {
                 }
             }
         }
+        for (Integer i = 0; i < newKey; i++) {
+            if (!monomials.containsKey(i)) {
+                monomials.put(i, new Monomial(i, new IntegerScalar(0)));
+            }
+        }
         return new Polynomial(monomials);
     }
 
     public Scalar evaluate(Scalar s) {
-        Scalar result = new IntegerScalar(0);
-        for (IntegerScalar key : monomials.keySet()) {
+        Scalar result = new RationalScalar(0, 1);
+        for (Integer key : monomials.keySet()) {
             result = result.add(monomials.get(key).evaluate(s));
         }
         return result;
     }
 
     public Polynomial derivative() {
-        TreeMap<IntegerScalar, Monomial> monomials = new TreeMap<>();
-        for (IntegerScalar key : this.monomials.keySet()) {
-            Monomial m = this.monomials.get(key).derivative();
-            if (!m.equals(new Monomial(0, new IntegerScalar(0)))) {
-                monomials.put(new IntegerScalar(key.getNumber() - 1), m);
+        TreeMap<Integer, Monomial> monomials = new TreeMap<>();
+        for (Integer key : this.monomials.keySet()) {
+            if (key != 0) {
+                Monomial m = this.monomials.get(key).derivative();
+                monomials.put(m.getExponent(), m);
             }
         }
         return new Polynomial(monomials);
@@ -90,24 +94,20 @@ public class Polynomial {
             if (this.monomials.size() != p.monomials.size()) {
                 return false;
             } else {
-                for (IntegerScalar key : this.monomials.keySet()) {
-                    if (!p.monomials.containsKey(key)) {
-                        return false;
-                    }
+                for (Integer key : this.monomials.keySet()) {
                     if (!this.monomials.get(key).equals(p.monomials.get(key))) {
                         return false;
                     }
                 }
                 return true;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     public String toString() {
         String result = "";
-        for (IntegerScalar key : monomials.keySet()) {
+        for (Integer key : monomials.keySet()) {
             result += monomials.get(key).toString() + " ";
         }
         return result;

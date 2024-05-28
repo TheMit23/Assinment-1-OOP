@@ -9,7 +9,7 @@ public class RationalScalar implements Scalar {
     public RationalScalar(int numerator, int denominator) {
         this.numerator = numerator;
         this.denominator = denominator;
-        this.reduce();
+        this.myReduce();
     }
 
     public RationalScalar reduce() {
@@ -20,6 +20,24 @@ public class RationalScalar implements Scalar {
             b = a % b;
             a = temp;
         }
+        this.numerator = this.numerator / a;
+        this.denominator = this.denominator / a;
+        if (denominator < 0) {
+            this.numerator = this.numerator * (-1);
+            this.denominator = this.denominator * (-1);
+        }
+        return new RationalScalar(this.numerator, this.denominator);
+    }
+
+    public RationalScalar myReduce() {
+        int a = numerator;
+        int b = denominator;
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+
         this.numerator = this.numerator / a;
         this.denominator = this.denominator / a;
         if (denominator < 0) {
@@ -38,7 +56,7 @@ public class RationalScalar implements Scalar {
 
     @Override
     public Scalar add(Scalar s) {
-        return null;
+        return s.addRational(this);
     }
 
     @Override
@@ -54,7 +72,7 @@ public class RationalScalar implements Scalar {
     @Override
     public Scalar power(int exponent) {
         int newNumerator = (int) Math.pow(getNumerator(), exponent);
-        int newDenominator = (int) Math.pow(getNumerator(), exponent);
+        int newDenominator = (int) Math.pow(getDenominator(), exponent);
         return new RationalScalar(newNumerator, newDenominator);
 
     }
