@@ -1,4 +1,4 @@
-package Assignment1;
+package Classes;
 
 
 import java.util.Scanner;
@@ -12,7 +12,7 @@ public class Calculator {
 
 
     public void start(){
-        System.out.println("Welcome to the Assignment1.Polynomial Assignment1.Calculator!");
+        System.out.println("Welcome to the Classes.Polynomial Classes.Calculator!");
         int choice = 0;
         while (choice != 5){
             System.out.println("Please select an operation:");

@@ -1,7 +1,4 @@
-package Assignment1;
-
-import Assignment1.IntegerScalar;
-import Assignment1.RationalScalar;
+package Classes;
 
 public interface Scalar {
     public Scalar add(Scalar s);

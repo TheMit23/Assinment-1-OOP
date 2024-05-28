@@ -1,4 +1,4 @@
-package Assignment1;
+package Classes;
 
 
 import java.util.TreeMap;
