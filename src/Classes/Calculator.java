@@ -1,6 +1,10 @@
 package Classes;
 
 
+import Classes.Polinomials.Polynomial;
+import Classes.Scalars.IntegerScalar;
+import Classes.Scalars.Scalar;
+
 import java.util.Scanner;
 
 public class Calculator {
@@ -12,7 +16,7 @@ public class Calculator {
 
 
     public void start(){
-        System.out.println("Welcome to the Classes.Polynomial Classes.Calculator!");
+        System.out.println("Welcome to the Classes.Polinomials.Polynomial Classes.Calculator!");
         int choice = 0;
         while (choice != 5){
             System.out.println("Please select an operation:");

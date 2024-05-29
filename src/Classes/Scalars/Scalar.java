@@ -1,4 +1,4 @@
-package Classes;
+package Classes.Scalars;
 
 public interface Scalar {
     public Scalar add(Scalar s);

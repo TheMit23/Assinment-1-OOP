@@ -1,5 +1,9 @@
-package Classes;
+package Classes.Polinomials;
 
+
+import Classes.Scalars.IntegerScalar;
+import Classes.Scalars.RationalScalar;
+import Classes.Scalars.Scalar;
 
 import java.util.TreeMap;
 
@@ -17,7 +21,7 @@ public class Polynomial {
         this.monomials.putAll(monomials);
     }
 
-    static Polynomial build(String input) {
+    public static Polynomial build(String input) {
         TreeMap<Integer, Monomial> monomials = new TreeMap<>();
         Integer key = 0;
         for (String str : input.split("\\s+")) {
@@ -91,16 +95,7 @@ public class Polynomial {
     public boolean equals(Object o) {
         if (o instanceof Polynomial) {
             Polynomial p = (Polynomial) o;
-            if (this.monomials.size() != p.monomials.size()) {
-                return false;
-            } else {
-                for (Integer key : this.monomials.keySet()) {
-                    if (!this.monomials.get(key).equals(p.monomials.get(key))) {
-                        return false;
-                    }
-                }
-                return true;
-            }
+            return p.toString().equals(this.toString());
         }
         return false;
     }
@@ -108,7 +103,12 @@ public class Polynomial {
     public String toString() {
         String result = "";
         for (Integer key : monomials.keySet()) {
-            result += monomials.get(key).toString() + " ";
+            Monomial m = monomials.get(key);
+            if (!m.getCoefficient().equals(new IntegerScalar(0))) {
+                if (!result.equals("") && m.sign() == 1)
+                    result += "+";
+                result += m.toString();
+            }
         }
         return result;
     }

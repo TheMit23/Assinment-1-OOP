@@ -1,5 +1,8 @@
-package Classes;
+package Classes.Polinomials;
 
+
+import Classes.Scalars.IntegerScalar;
+import Classes.Scalars.Scalar;
 
 public class Monomial {
     private int exponent;
@@ -57,6 +60,10 @@ public class Monomial {
             return coefficient.toString();
         }
         if (exponent == 1) {
+            if (coefficient.equals(new IntegerScalar(1))
+            ) {
+                return "x";
+            }
             return coefficient.toString() + "x";
         }
         if (coefficient.equals(new IntegerScalar(1))) {
@@ -66,5 +73,8 @@ public class Monomial {
             return "-x^" + exponent;
         }
         return coefficient.toString() + "x^" + exponent;
+    }
+    public Scalar getCoefficient() {
+        return coefficient;
     }
 }

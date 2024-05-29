@@ -1,19 +1,29 @@
 package Classes;
 
+import Classes.Polinomials.Polynomial;
+import Classes.Scalars.IntegerScalar;
+import Classes.Scalars.RationalScalar;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PolynomialTest {
-private Polynomial p1;
-private Polynomial p2;
-private Polynomial p3;
-private Polynomial p4;
-private Polynomial p5;
-private Polynomial p6;
-private Polynomial p7;
-private Polynomial p8;
+    private Polynomial p1;
+    private Polynomial p2;
+    private Polynomial p3;
+    private Polynomial p4;
+    private Polynomial p5;
+    private Polynomial p6;
+    private Polynomial p7;
+    private Polynomial p8;
+    private Polynomial p9;
+    private Polynomial p10;
+    private Polynomial p11;
+    private Polynomial p12;
+    private Polynomial p13;
+    private Polynomial p14;
+    private Polynomial p15;
 
     @BeforeEach
     public void initTest() {
@@ -25,6 +35,20 @@ private Polynomial p8;
         p6 = Polynomial.build("0 1/2 3 -5/3");
         p7 = Polynomial.build("1  2   3");
         p8 = Polynomial.build("1/2  2       5");
+        p9 = Polynomial.build("0 1");
+        p10 = Polynomial.build("0 1 5");
+        p11 = Polynomial.build("0 0 -5");
+        p12 = Polynomial.build("1 1");
+        p13 = Polynomial.build("0 5");
+        p14 = Polynomial.build("0 5 5");
+        p15 = Polynomial.build("0 0 0");
+
+
+
+
+
+
+
     }
 
     @Test
@@ -51,7 +75,7 @@ private Polynomial p8;
     void evaluate() {
         assertEquals(new IntegerScalar(6), p1.evaluate(new IntegerScalar(1)));
         assertEquals(new RationalScalar(15, 2), p8.evaluate(new IntegerScalar(1)));
-        assertEquals(new RationalScalar(7168, 3125), p3.evaluate(new RationalScalar(4,5)));
+        assertEquals(new RationalScalar(7168, 3125), p3.evaluate(new RationalScalar(4, 5)));
         assertEquals(new RationalScalar(1, 2), p8.evaluate(new IntegerScalar(0)));
     }
 
@@ -59,17 +83,32 @@ private Polynomial p8;
     void derivative() {
         assertEquals(Polynomial.build("2 6"), p1.derivative());
         assertEquals(Polynomial.build("2 6"), p7.derivative());
-        assertEquals(Polynomial.build(" "), p4.derivative());
-//        assertEquals(Polynomial.build("1 4 5"), p8.derivative());
+        assertEquals(Polynomial.build("0"), p4.derivative());
+        assertEquals(Polynomial.build("2 10"), p8.derivative());
         assertEquals(Polynomial.build("-2 6"), p5.derivative());
-//        assertEquals(Polynomial.build("0"), p6.derivative());
+        assertEquals(Polynomial.build("1/2 6 -5"), p6.derivative());
+        assertEquals(Polynomial.build("0"), p15.derivative());
+
     }
 
     @Test
     void testEquals() {
+        assertEquals(true, p9.equals(p10.add(p11)));
+        assertEquals(true, p1.equals(p1));
+        assertEquals(true, p1.equals(p7));
+        assertEquals(false, p1.equals(p5));
+        assertEquals(true, p14.equals(p12.mul(p13)));
     }
 
     @Test
     void testToString() {
+        assertEquals("x", p10.add(p11).toString());
+        assertEquals("1/2+2x+5x^2", p8.toString());
+        assertEquals("1+2x+3x^2", p7.toString());
+        assertEquals("1+2x+3x^2", p1.toString());
+        assertEquals("7x^5", p3.toString());
+        assertEquals("5", p4.toString());
+        assertEquals("-5x^2", p11.toString());
+        assertEquals("1-2x+3x^2", p5.toString());
     }
 }

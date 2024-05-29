@@ -1,4 +1,4 @@
-package Classes;
+package Classes.Scalars;
 
 
 public class IntegerScalar implements Scalar {

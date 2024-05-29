@@ -1,5 +1,4 @@
-package Classes;
-
+package Classes.Scalars;
 
 
 public class RationalScalar implements Scalar {

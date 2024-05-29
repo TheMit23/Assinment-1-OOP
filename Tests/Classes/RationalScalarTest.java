@@ -1,10 +1,10 @@
 package Classes;
 
+import Classes.Scalars.IntegerScalar;
+import Classes.Scalars.RationalScalar;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class RationalScalarTest {
     private IntegerScalar objPos;
